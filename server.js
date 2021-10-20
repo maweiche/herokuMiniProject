@@ -33,6 +33,11 @@ app.get('/api/diagnostics', (req, res) =>
   res.json(diagnostics)
 );
 
+//GET Route for wildcard page
+app.get('*', (req, res) => 
+  res.sendFile(path.join(__dirname, '/public/404.html'))
+);
+
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
