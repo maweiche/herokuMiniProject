@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { clog } = require('./middleware/clog');
 const api = require('./routes/index.js');
+const diagnostics = require('./db/diagnostics.json')
 
 const PORT = process.env.port || 3001;
 
@@ -25,6 +26,11 @@ app.get('/', (req, res) =>
 // GET Route for feedback page
 app.get('/feedback', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/pages/feedback.html'))
+);
+
+//GET Route for diagnostics page
+app.get('/api/diagnostics', (req, res) =>
+  res.json(diagnostics)
 );
 
 app.listen(PORT, () =>
