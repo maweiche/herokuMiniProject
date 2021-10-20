@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const { clog } = require('./middleware/clog');
 const api = require('./routes/index.js');
-const diagnostics = require('./db/diagnostics.json')
+const diagnostics = require('./db/diagnostics.json');
+const { readAndAppend } = require('./helpers/fsUtils');
 
 const PORT = process.env.port || 3001;
 
@@ -33,10 +34,19 @@ app.get('/api/diagnostics', (req, res) =>
   res.json(diagnostics)
 );
 
+//POST Route for diagnostics page
+app.post('/api/diagnostics', (req, res) =>{
+  console.log(req.body);
+  readAndAppend(req.body, './db/diagnostics.json')
+  res.json("failed to save tip")
+}
+);
+
 //GET Route for wildcard page
 app.get('*', (req, res) => 
   res.sendFile(path.join(__dirname, '/public/404.html'))
 );
+
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
